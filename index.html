@@ -9,10 +9,6 @@
             box-sizing: border-box;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
-
         body {
             font-family: "Montserrat", "Segoe UI", sans-serif;
             margin: 0;
@@ -32,8 +28,10 @@
         }
 
         header {
-            position: sticky;
+            position: fixed;
             top: 0;
+            left: 0;
+            width: 100%;
             z-index: 1000;
             background-color: rgba(59, 59, 59, 0.95);
             color: white;
@@ -84,7 +82,7 @@
             display: flex;
             align-items: center;
             animation: colorChange 10s ease infinite;
-            padding: 110px 0 72px;
+            padding: 150px 0 72px;
         }
 
         @keyframes colorChange {
@@ -460,7 +458,6 @@
             text-align: left;
         }
 
-        .install-links,
         .paper-links {
             display: flex;
             justify-content: center;
@@ -469,7 +466,6 @@
             margin-top: 22px;
         }
 
-        .install-links a,
         .paper-links a {
             padding: 12px 18px;
             border-radius: 999px;
@@ -480,8 +476,6 @@
             transition: transform 0.25s ease, box-shadow 0.25s ease;
         }
 
-        .install-links a:hover,
-        .install-links a:focus-visible,
         .paper-links a:hover,
         .paper-links a:focus-visible {
             transform: translateY(-2px);
@@ -534,7 +528,7 @@
             }
 
             .hero {
-                padding: 120px 0 48px;
+                padding: 140px 0 48px;
             }
 
             .hero-text p,
@@ -563,7 +557,6 @@
                 <a href="#install">Installation</a>
                 <a href="https://pypi.org/project/eegemolib/" target="_blank" rel="noreferrer">PyPI</a>
                 <a href="https://eegemolib-docs.readthedocs.io/en/latest/index.html#" target="_blank" rel="noreferrer">Documentation</a>
-                <a href="https://github.com/Schmerle-Cki/EEGEmoLib/tree/main" target="_blank" rel="noreferrer"><img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub" style="width: 24px; vertical-align: middle; filter: invert(1);"></a>
                 <img src="images/logo180.png" alt="Tsinghua University Logo" class="logo" style="height: 35px; vertical-align: middle; padding-left: 18px; font-size: 0;">
             </div>
         </div>
@@ -696,10 +689,6 @@
                 <h2>🔧 Installation 🔧</h2>
                 <p>Install EEGEmoLib directly from PyPI. The PyPI page provides release details and package metadata, and the documentation website provides setup instructions and usage examples.</p>
                 <pre>pip install eegemolib</pre>
-                <div class="install-links">
-                    <a href="https://pypi.org/project/eegemolib/" target="_blank" rel="noreferrer">PyPI Package Page</a>
-                    <a href="https://eegemolib-docs.readthedocs.io/en/latest/index.html#" target="_blank" rel="noreferrer">Documentation Website</a>
-                </div>
             </div>
         </section>
 
@@ -711,13 +700,14 @@
                 <div class="paper-links">
                     <a href="https://pypi.org/project/eegemolib/" target="_blank" rel="noreferrer">Open PyPI</a>
                     <a href="https://eegemolib-docs.readthedocs.io/en/latest/index.html#" target="_blank" rel="noreferrer">Open Documentation</a>
-                    <a href="https://github.com/Schmerle-Cki/EEGEmoLib/tree/main" target="_blank" rel="noreferrer">Open GitHub</a>
                 </div>
             </div>
         </section>
     </div>
+
     <footer>
         EEGEmoLib homepage
     </footer>
+
 </body>
 </html>
