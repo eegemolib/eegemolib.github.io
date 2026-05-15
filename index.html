@@ -5,330 +5,721 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EEGEmoLib</title>
     <style>
-        /* Global Styles */
-        body {
-            font-family: 'Montserrat', sans-serif;
-            margin: 0;
-            padding: 0;
+        * {
             box-sizing: border-box;
         }
 
-        /* 页面容器，包含页面的内容 */
-        .container {
-            padding: 0 240px; /* 左右留出 20px 内边距 */
+        html {
+            scroll-behavior: smooth;
         }
 
-        /* 顶部导航栏 */
+        body {
+            font-family: "Montserrat", "Segoe UI", sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #1f1f1f;
+            background: #ffffff;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .container {
+            width: min(100% - 48px, 1180px);
+            margin: 0 auto;
+        }
+
         header {
-            background-color: #3b3b3b;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: rgba(59, 59, 59, 0.95);
             color: white;
-            padding: 20px 0;
-            width: 100%;
-            position: relative; /* 固定在屏幕顶部 */
-            top: 80px; /* 贴近屏幕顶部 */
-            left: 0; /* 确保导航栏从左边开始 */
-            z-index: 1000; /* 确保导航栏在其他内容前面 */
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 给导航栏添加阴影 */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+            backdrop-filter: blur(8px);
         }
 
         header .container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 120px; /* 内容内边距 */
-        }
-
-        header a {
-            color: white;
-            text-decoration: none;
-            margin-left: 20px;
-            font-size: 16px;
+            gap: 20px;
+            min-height: 80px;
         }
 
         .logo {
             font-weight: bold;
             font-size: 30px;
+            letter-spacing: 0.03em;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        header a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 999px;
+            font-size: 15px;
+            transition: background-color 0.25s ease, transform 0.25s ease;
+        }
+
+        header a:hover,
+        header a:focus-visible {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-1px);
         }
 
         .hero {
-            height: 100vh; /* 占满整个页面高度 */
+            min-height: 100vh;
             color: white;
             display: flex;
-            justify-content: center;
             align-items: center;
-            text-align: center;
-            animation: colorChange 10s ease infinite; /* 设置动画名称为 colorChange，持续 10 秒，循环无限 */
+            animation: colorChange 10s ease infinite;
+            padding: 110px 0 72px;
         }
-        
+
         @keyframes colorChange {
             0% {
-                background: #00c6ff; /* 橙色 */
+                background: #00c6ff;
             }
             50% {
-                background: #42aaff; /* 蓝色 */
+                background: #42aaff;
             }
             100% {
-                background: #00c6ff; /* 橙色 */
+                background: #00c6ff;
             }
         }
 
         .hero .container {
-            padding: 0 240px; /* 左右留出 20px 内边距 */
-            justify-content: space-between; /* 使内容分布在两边 */
-            align-items: center; /* 垂直居中 */
+            display: grid;
+            grid-template-columns: minmax(0, 1.3fr) minmax(280px, 0.7fr);
+            gap: 28px;
+            align-items: center;
         }
 
-        /* 主页部分 */
-        .hero .text {
-            max-width: 125%; /* 限制文字部分的宽度 */
-        }
-
-        .hero h1 {
-            font-size: 48px;
+        .hero-text h1 {
+            font-size: clamp(42px, 6vw, 66px);
             margin: 0;
+            line-height: 1.06;
         }
 
-        .hero p {
+        .hero-text p {
             font-size: 20px;
-            margin-top: 10px;
+            margin: 18px 0 0;
+            line-height: 1.7;
+            max-width: 760px;
         }
 
-        /* 库描述文本 */
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 14px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.16);
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-top: 30px;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+            margin-top: 30px;
+        }
+
+        .hero-stat {
+            padding: 16px 18px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.14);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .hero-stat strong {
+            display: block;
+            font-size: 30px;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .hero-stat span {
+            display: block;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 46px;
+            padding: 0 18px;
+            border-radius: 999px;
+            font-size: 15px;
+            font-weight: 700;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+        }
+
+        .button:hover,
+        .button:focus-visible {
+            transform: translateY(-2px);
+        }
+
+        .button-primary {
+            background: #ffffff;
+            color: #1896df;
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+        }
+
+        .button-secondary {
+            background: rgba(255, 255, 255, 0.16);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.36);
+        }
+
+        .hero-side {
+            background: rgba(255, 255, 255, 0.16);
+            border: 1px solid rgba(255, 255, 255, 0.24);
+            border-radius: 18px;
+            padding: 22px;
+            backdrop-filter: blur(6px);
+        }
+
+        .hero-side h2 {
+            margin: 0 0 14px;
+            font-size: 22px;
+        }
+
+        .hero-side p {
+            margin: 0 0 12px;
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        .side-label {
+            display: inline-block;
+            margin-bottom: 12px;
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.14);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .hero-links {
+            display: grid;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .hero-links a {
+            display: block;
+            padding: 12px 14px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.14);
+            color: #ffffff;
+            font-weight: 600;
+            transition: background-color 0.25s ease, transform 0.25s ease;
+        }
+
+        .hero-links a:hover,
+        .hero-links a:focus-visible {
+            background: rgba(255, 255, 255, 0.22);
+            transform: translateY(-1px);
+        }
+
         .library-description {
-            padding: 30px 0;
+            padding: 54px 0 24px;
             text-align: center;
             font-size: 18px;
-            line-height: 1.6;
+            line-height: 1.8;
             color: #333;
         }
 
-        /* 特性介绍栏 */
-        .features {
-            display: flex;
-            flex-wrap: wrap; /* 启用换行 */
-            justify-content: space-between; /* 保证每一行元素均匀分布 */
-            padding: 20px 180px;
-            background-color: white;
-        }
-
-        .features-title {
-            width: 100%;
-            text-align: center; /* 将标题居中 */
-            font-size: 24px; /* 设置标题字体大小 */
-            margin-bottom: 30px; /* 增加标题与 feature-cards 之间的间距 */
-            font-weight: bold;
-        }
-        
-        .feature-card {
-            background-color: white;
-            padding: 20px;
-            width: 44%; /* 保证每个 feature-card 占据一半宽度 */
-            text-align: left; /* 默认文字左对齐 */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            display: flex;
-            flex-direction: column;
-            justify-content: start;
-            margin-bottom: 20px; /* 增加底部间距 */
-        }
-        
-        .feature-card h3 {
-            text-align: center; /* 标题居中 */
-            margin-bottom: 15px; /* 标题与内容的间距 */
-            font-size: 20px;
-            font-weight: bold;
-        }
-
-        .feature-card p {
-            margin: 0;
-            text-indent: 1.5em; /* 首行缩进 */
-            line-height: 1.6; /* 行高 */
-            font-size: 16px;
-            color: #555; /* 优化文字颜色 */
-        }
-        
-        .learn-more {
-            text-align: right;
-            font-size: 16px;
-            color: #ff7e5f;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        
-        /* 添加 hover 效果 */
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-            transition: all 0.3s ease;
-        }
-
-        /* 安装方法部分 */
-        .installation {
-            padding: 50px 20px;
-            text-align: center;
-            background-color: #f4f4f4;
-        }
-
-        .installation pre {
-            background-color: #333;
-            color: white;
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 16px;
-            overflow-x: auto;
-        }
-
-        /* 论文链接部分 */
-        .paper {
-            text-align: center;
-            padding: 50px 20px;
-        }
-
-        .paper a {
-            font-size: 18px;
-            color: #ff7e5f;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        /* 底部 */
-        footer {
-            text-align: center;
-            padding: 1px;
-            background-color: #333;
-            color: white;
+        .library-description .container {
+            max-width: 900px;
         }
 
         .image-section {
             text-align: center;
-            padding: 30px 20px;
+            padding: 34px 20px 56px;
             background-color: #f4f4f4;
         }
 
+        .image-section h2 {
+            margin-top: 0;
+            margin-bottom: 28px;
+            font-size: 30px;
+        }
+
         .image-section img {
-            max-width: 75%; /* 确保图像不超出屏幕宽度 */
-            height: auto; /* 保持图像的纵横比 */
-            border-radius: 25px; /* 圆角效果 */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 增加阴影 */
+            max-width: min(100%, 920px);
+            height: auto;
+            border-radius: 25px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .features {
+            padding: 68px 0 60px;
+            background-color: white;
+        }
+
+        .section-kicker {
+            display: inline-block;
+            margin-bottom: 12px;
+            padding: 8px 14px;
+            border-radius: 999px;
+            background: #f3f7fb;
+            color: #3b6f99;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .features-title {
+            text-align: center;
+            font-size: 30px;
+            margin: 0 0 12px;
+            font-weight: bold;
+        }
+
+        .features-intro {
+            max-width: 860px;
+            margin: 0 auto 34px;
+            text-align: center;
+            font-size: 17px;
+            line-height: 1.8;
+            color: #555;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 22px;
+        }
+
+        .feature-card {
+            background-color: white;
+            padding: 24px;
+            text-align: left;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-top: 4px solid #dfefff;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.14);
+        }
+
+        .feature-card h3 {
+            text-align: left;
+            margin: 0 0 15px;
+            font-size: 21px;
+            font-weight: bold;
+        }
+
+        .feature-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            margin-bottom: 10px;
+        }
+
+        .feature-tag {
+            flex-shrink: 0;
+            padding: 7px 10px;
+            border-radius: 999px;
+            background: #f3f7fb;
+            color: #4d84b1;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .feature-card p {
+            margin: 0;
+            line-height: 1.75;
+            font-size: 16px;
+            color: #555;
+            flex: 1;
+        }
+
+        .learn-more {
+            align-self: flex-end;
+            margin-top: 18px;
+            font-size: 16px;
+            color: #ff7e5f;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .resource-strip {
+            padding: 8px 0 60px;
+            background: linear-gradient(180deg, #ffffff 0%, #f8fbfe 100%);
+        }
+
+        .resource-cards {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .resource-card {
+            padding: 22px;
+            background: #f6f8fb;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            border: 1px solid #edf2f7;
+        }
+
+        .resource-card h3 {
+            margin: 0 0 12px;
+            font-size: 20px;
+        }
+
+        .resource-card p {
+            margin: 0;
+            color: #555;
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        .resource-card a {
+            display: inline-block;
+            margin-top: 14px;
+            color: #ff7e5f;
+            font-weight: bold;
+        }
+
+        .bottom-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+            gap: 22px;
+            padding: 0 0 64px;
+        }
+
+        .installation,
+        .paper {
+            padding: 34px 30px;
+            text-align: center;
+            background-color: #f4f4f4;
+            border-radius: 20px;
+        }
+
+        .installation h2,
+        .paper h2 {
+            margin-top: 0;
+            font-size: 30px;
+        }
+
+        .installation p,
+        .paper p {
+            max-width: 840px;
+            margin: 0 auto 18px;
+            color: #555;
+            line-height: 1.8;
+            font-size: 17px;
+        }
+
+        .installation pre {
+            max-width: 720px;
+            margin: 0 auto;
+            background-color: #333;
+            color: white;
+            padding: 16px 20px;
+            border-radius: 12px;
+            font-size: 16px;
+            overflow-x: auto;
+            text-align: left;
+        }
+
+        .install-links,
+        .paper-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-top: 22px;
+        }
+
+        .install-links a,
+        .paper-links a {
+            padding: 12px 18px;
+            border-radius: 999px;
+            background: #ffffff;
+            color: #ff7e5f;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .install-links a:hover,
+        .install-links a:focus-visible,
+        .paper-links a:hover,
+        .paper-links a:focus-visible {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+        }
+
+        .paper {
+            background: #ffffff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        footer {
+            text-align: center;
+            padding: 14px 20px;
+            background-color: #333;
+            color: white;
+            font-size: 14px;
+        }
+
+        @media (max-width: 960px) {
+            .hero .container,
+            .feature-grid,
+            .resource-cards,
+            .bottom-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                min-height: auto;
+            }
+
+            .hero-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 720px) {
+            .container {
+                width: min(100% - 24px, 1180px);
+            }
+
+            header .container {
+                padding: 14px 0;
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .nav-links {
+                justify-content: flex-start;
+            }
+
+            .hero {
+                padding: 120px 0 48px;
+            }
+
+            .hero-text p,
+            .library-description,
+            .features-intro,
+            .installation p,
+            .paper p {
+                font-size: 16px;
+            }
+
+            .installation,
+            .paper {
+                padding: 28px 20px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- 顶部导航栏 -->
     <header>
         <div class="container">
             <div class="logo">EEGEmoLib</div>
-            <div>
+            <div class="nav-links">
                 <a href="#home">Home</a>
-                <a href="https://eegemolib-docs.readthedocs.io/en/latest/index.html">Documentation</a>
-                <a href="https://github.com/Schmerle-Cki/EEGEmoLib/tree/main" target="_blank"><img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub" style="width: 24px; vertical-align: middle; filter: invert(1);"></a>
-                <img src="images/logo180.png" alt="Tsinghua University Logo" class="logo" style="height: 35px; vertical-align: middle; padding-left: 30px;">
+                <a href="#features">Features</a>
+                <a href="#install">Installation</a>
+                <a href="https://pypi.org/project/eegemolib/" target="_blank" rel="noreferrer">PyPI</a>
+                <a href="https://eegemolib-docs.readthedocs.io/en/latest/index.html#" target="_blank" rel="noreferrer">Documentation</a>
+                <a href="https://github.com/Schmerle-Cki/EEGEmoLib/tree/main" target="_blank" rel="noreferrer"><img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub" style="width: 24px; vertical-align: middle; filter: invert(1);"></a>
+                <img src="images/logo180.png" alt="Tsinghua University Logo" class="logo" style="height: 35px; vertical-align: middle; padding-left: 18px; font-size: 0;">
             </div>
         </div>
     </header>
 
-    <!-- 主页 -->
     <section class="hero" id="home">
         <div class="container">
-            <h1>EEGEmoLib</h1>
-            <p>A plug-and-play EEG toolkit that includes modules for EEG-based emotion analysis.</p>
+            <div class="hero-text">
+                <div class="hero-badge">EEG Emotion Analysis Toolkit</div>
+                <h1>EEGEmoLib</h1>
+                <p>A plug-and-play EEG toolkit that includes modules for EEG-based emotion analysis.</p>
+                <div class="hero-actions">
+                    <a class="button button-primary" href="#features">Explore Features</a>
+                    <a class="button button-secondary" href="https://eegemolib-docs.readthedocs.io/en/latest/index.html#" target="_blank" rel="noreferrer">Read Documentation</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <strong>17</strong>
+                        <span>Common handcrafted EEG features for practical analysis pipelines.</span>
+                    </div>
+                    <div class="hero-stat">
+                        <strong>15</strong>
+                        <span>Representative recognition models spanning multiple modeling styles.</span>
+                    </div>
+                </div>
+            </div>
+            <aside class="hero-side">
+                <div class="side-label">Project Ecosystem</div>
+                <h2>Project Resources</h2>
+                <p>EEGEmoLib is supported by a complete project ecosystem, including the homepage, the PyPI package page, and the full documentation website for installation, API usage, and technical guides.</p>
+                <div class="hero-links">
+                    <a href="https://pypi.org/project/eegemolib/" target="_blank" rel="noreferrer">Visit the PyPI package page</a>
+                    <a href="https://eegemolib-docs.readthedocs.io/en/latest/index.html#" target="_blank" rel="noreferrer">Open the documentation website</a>
+                </div>
+            </aside>
+        </div>
+    </section>
+
+    <section class="library-description">
+        <div class="container">
+            EEGEmoLib is designed to streamline EEG emotion recognition research with a flat and practical workflow. It combines dataset management, feature engineering, model training, and visualization tools in one toolkit, while the PyPI page and the documentation site provide the complete distribution and usage references.
         </div>
     </section>
 
     <section class="image-section">
-        <h2>⚙️  EEGEmoLib Pipeline  ⚙️</h2>
-        <img src="images/eegemolib.png" alt="EEGEmoLib Overview">
-    </section>
-
-    <!-- 特性介绍 -->
-    <section class="features">
-        <h2 class="features-title">🔥  Learn EEGEmoLib Features  🔥</h2>
-        <div class="feature-card">
-            <h3>Datasets</h3>
-            <p>EEGEmoLib implements mainstream open source datasets, totally including 8 datasets. We use a single yaml file to set up the data loading from the dataset. Parameters such as the path, preprocessing procedure, split setting are all included in the yaml file.</p>
-            <a href="https://eegemolib-docs.readthedocs.io/en/latest/datasets.html" class="learn-more">Learn More</a>
-        </div>
-        <div class="feature-card">
-            <h3>Feature Extraction</h3>
-            <p>EEGEmoLib implements 16 most commonly used handcrafted features: mean, variance, skewness, peak-to-peak (pp), first-order difference, second-order difference, normalized first-order difference, normalized second-order difference, energy, power, HOC, nonlinear signal indicator (NSI), Hjorth parameters, DE, PSD, and Hilbert-Huang spectrum.</p>
-            <a href="https://eegemolib-docs.readthedocs.io/en/latest/featureextraction.html" class="learn-more">Learn More</a>
-        </div>
-        <div class="feature-card">
-            <h3>Feature Selection</h3>
-            <p>EEGEmoLib implements 11 feature extraction methods within filter, wrapper and embedding. They include Univariate ANOVA, chi-square distribution, Principal Component Analysis (PCA), Kernel PCA, Non-negative Matrix Factorization (NMF), Locally Linear Embedding (LLE), Minimum-redundancy maximum relevance(mRMR), Linear Discriminant Analysis (LDA), Recursive feature elimination (RFE), SVM based wrapper and L1 regularization.</p>
-            <a href="https://eegemolib-docs.readthedocs.io/en/latest/featureselection.html" class="learn-more">Learn More</a>
-        </div>
-        <div class="feature-card">
-            <h3>Recognition Model</h3>
-            <p>EEGEmoLib integrates 15 representative EEG emotion recognition methods (detailed in Table 5), spanning sequential, convolutional, and graph-based models. This collection includes both foundational and state-of-the-art approaches for EEG-ER. These implementations follow a structured organization within the models directory, with a clear categorization based on the input data dimensionality.</p>
-            <a href="https://eegemolib-docs.readthedocs.io/en/latest/models.html" class="learn-more">Learn More</a>
-        </div>
-        <div class="feature-card">
-            <h3>Visualizations</h3>
-            <p>EEGEmoLib provides comprehensive visualization utilities for exploring EEG data and model behavior. Users can visualize raw EEG signals, feature distributions, and emotional state embeddings through plots. These tools facilitate intuitive understanding, debugging, and interpretation of EEG-based emotion recognition models.</p>
-            <a href="https://eegemolib-docs.readthedocs.io/en/latest/models.html" class="learn-more">Learn More</a>
-        </div>
-    </section>
-
-    <!-- 安装方法 -->
-    <section class="installation" id="install">
         <div class="container">
-            <h2>🔧  Installation  🔧</h2>
-            <pre>pip install eegemolib</pre>
+            <h2>⚙️ EEGEmoLib Pipeline ⚙️</h2>
+            <img src="images/eegemolib.png" alt="EEGEmoLib Overview">
         </div>
     </section>
 
-    <!-- 论文链接 -->
-    <section class="paper" id="paper">
+    <section class="features" id="features">
         <div class="container">
-            <h2>📄  Read our Paper  📄</h2>
-            <p>Read more about this library in our paper: <a href="#placeholder" target="_blank">Click here</a></p>
+            <div style="text-align: center;">
+                <span class="section-kicker">Core Modules</span>
+            </div>
+            <h2 class="features-title">🔥 Learn EEGEmoLib Features 🔥</h2>
+            <p class="features-intro">
+                EEGEmoLib covers the major modules required for EEG emotion recognition workflows. The documentation website contains detailed usage instructions, dataset-specific setup, and implementation references, while the PyPI page provides package distribution and release information.
+            </p>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-card-header">
+                        <h3>Datasets</h3>
+                        <span class="feature-tag">Configurable datasets</span>
+                    </div>
+                    <p>EEGEmoLib implements mainstream open source datasets. We use a single yaml file to set up the data loading from the dataset. Parameters such as the path, preprocessing procedure, split setting are all included in the yaml file.</p>
+                    <a href="https://eegemolib-docs.readthedocs.io/en/latest/datasets.html" class="learn-more" target="_blank" rel="noreferrer">Learn More</a>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-header">
+                        <h3>Feature Extraction</h3>
+                        <span class="feature-tag">17 features</span>
+                    </div>
+                    <p>EEGEmoLib implements 17 most commonly used handcrafted features: mean, variance, skewness, peak-to-peak (pp), first-order difference, second-order difference, normalized first-order difference, normalized second-order difference, energy, power, HOC, nonlinear signal indicator (NSI), Hjorth parameters, DE, PSD, coherence, and Hilbert-Huang spectrum.</p>
+                    <a href="https://eegemolib-docs.readthedocs.io/en/latest/featureextraction.html" class="learn-more" target="_blank" rel="noreferrer">Learn More</a>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-header">
+                        <h3>Feature Selection</h3>
+                        <span class="feature-tag">11 methods</span>
+                    </div>
+                    <p>EEGEmoLib implements 11 feature extraction methods within filter, wrapper and embedding. They include Univariate ANOVA, chi-square distribution, Principal Component Analysis (PCA), Kernel PCA, Non-negative Matrix Factorization (NMF), Locally Linear Embedding (LLE), Minimum-redundancy maximum relevance(mRMR), Linear Discriminant Analysis (LDA), Recursive feature elimination (RFE), SVM based wrapper and L1 regularization.</p>
+                    <a href="https://eegemolib-docs.readthedocs.io/en/latest/featureselection.html" class="learn-more" target="_blank" rel="noreferrer">Learn More</a>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-header">
+                        <h3>Recognition Model</h3>
+                        <span class="feature-tag">15 models</span>
+                    </div>
+                    <p>EEGEmoLib integrates 15 representative EEG emotion recognition methods (detailed in Table 5), spanning sequential, convolutional, and graph-based models. This collection includes both foundational and state-of-the-art approaches for EEG-ER. These implementations follow a structured organization within the models directory, with a clear categorization based on the input data dimensionality.</p>
+                    <a href="https://eegemolib-docs.readthedocs.io/en/latest/models.html" class="learn-more" target="_blank" rel="noreferrer">Learn More</a>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-header">
+                        <h3>Visualizations</h3>
+                        <span class="feature-tag">Insight tools</span>
+                    </div>
+                    <p>EEGEmoLib provides comprehensive visualization utilities for exploring EEG data and model behavior. Users can visualize raw EEG signals, feature distributions, and emotional state embeddings through plots. These tools facilitate intuitive understanding, debugging, and interpretation of EEG-based emotion recognition models.</p>
+                    <a href="https://eegemolib-docs.readthedocs.io/en/latest/models.html" class="learn-more" target="_blank" rel="noreferrer">Learn More</a>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- 底部 -->
+    <section class="resource-strip">
+        <div class="container resource-cards">
+            <div class="resource-card">
+                <h3>Homepage</h3>
+                <p>This page is the quick visual introduction to EEGEmoLib, focusing on the overall workflow, main capabilities, and external entry points.</p>
+                <a href="#home">Back to top</a>
+            </div>
+            <div class="resource-card">
+                <h3>PyPI Page</h3>
+                <p>The PyPI page is the official package distribution page, where users can find installation, release versions, and package metadata.</p>
+                <a href="https://pypi.org/project/eegemolib/" target="_blank" rel="noreferrer">Open PyPI</a>
+            </div>
+            <div class="resource-card">
+                <h3>Documentation</h3>
+                <p>The documentation page contains the detailed user guides, dataset pages, feature descriptions, and model-specific references that go beyond this homepage.</p>
+                <a href="https://eegemolib-docs.readthedocs.io/en/latest/index.html#" target="_blank" rel="noreferrer">Open Docs</a>
+            </div>
+        </div>
+    </section>
+
+    <div class="container bottom-grid">
+        <section class="installation" id="install">
+            <div>
+                <span class="section-kicker">Get Started</span>
+                <h2>🔧 Installation 🔧</h2>
+                <p>Install EEGEmoLib directly from PyPI. The PyPI page provides release details and package metadata, and the documentation website provides setup instructions and usage examples.</p>
+                <pre>pip install eegemolib</pre>
+                <div class="install-links">
+                    <a href="https://pypi.org/project/eegemolib/" target="_blank" rel="noreferrer">PyPI Package Page</a>
+                    <a href="https://eegemolib-docs.readthedocs.io/en/latest/index.html#" target="_blank" rel="noreferrer">Documentation Website</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="paper" id="paper">
+            <div>
+                <span class="section-kicker">Further Reading</span>
+                <h2>📄 EEGEmoLib Resources 📄</h2>
+                <p>EEGEmoLib is presented through three public-facing pages: this homepage for overview, the PyPI page for package distribution, and the documentation page for detailed technical guidance.</p>
+                <div class="paper-links">
+                    <a href="https://pypi.org/project/eegemolib/" target="_blank" rel="noreferrer">Open PyPI</a>
+                    <a href="https://eegemolib-docs.readthedocs.io/en/latest/index.html#" target="_blank" rel="noreferrer">Open Documentation</a>
+                    <a href="https://github.com/Schmerle-Cki/EEGEmoLib/tree/main" target="_blank" rel="noreferrer">Open GitHub</a>
+                </div>
+            </div>
+        </section>
+    </div>
+
     <footer>
-        <p></p>
+        EEGEmoLib homepage
     </footer>
 
 </body>
-<script>
-    let currentSection = 0; // 当前显示的section索引
-    const sections = document.querySelectorAll('section'); // 获取所有的section
-    const totalSections = sections.length; // 总的section数
-
-    // 监听滚轮事件
-    window.addEventListener('wheel', function (e) {
-        if (e.deltaY > 0) {
-            // 向下滚动
-            if (currentSection < totalSections - 1) {
-                currentSection++; // 向下滚动，更新当前section
-            }
-        } else {
-            // 向上滚动
-            if (currentSection > 0) {
-                currentSection--; // 向上滚动，更新当前section
-            }
-        }
-
-        // 滚动到对应的section
-        scrollToSection(currentSection);
-    });
-
-    // 滚动到指定section
-    function scrollToSection(index) {
-        const targetSection = sections[index];
-        window.scrollTo({
-            top: targetSection.offsetTop, // 滚动到目标section的位置
-            behavior: 'smooth' // 平滑滚动
-        });
-    }
-
-    // 页面加载完毕后执行滚动操作
-    window.onload = function() {
-        // 滚动到页面顶部 80px
-        window.scrollTo(0, 80);
-    };
-</script>
 </html>
